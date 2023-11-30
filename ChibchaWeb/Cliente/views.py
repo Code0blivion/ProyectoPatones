@@ -2,7 +2,7 @@ from datetime import date
 import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from .models import Archivo, Cliente, TarjetaCredito, Dominio, SitioWeb, Plan, DominioCancelado
+from .models import Archivo, Cliente, TarjetaCredito, Dominio, SitioWeb, Plan, DominioCancelado, Ticket
 from Distribuidor.models import Distribuidor, ExtensionDominio
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -68,7 +68,7 @@ def cambiar_tarjeta(request):
         tarjeta.fechaVencimientoMes = request.POST['mes']
         tarjeta.fechaVencimientoAnio = request.POST['anio']
         tarjeta.direccion = request.POST['direccion']
-        if validar_tarjeta(tarjeta.numeroTarjeta) == True:
+        if validar_tarjeta(tarjeta.numeroTarjeta) == True and tarjeta.numeroTarjeta.count('0') != len(tarjeta.numeroTarjeta):
             tarjeta.save()
             print("Tarjeta guardada")
             messages.success(request, 'La tarjeta de crédito se ha guardado correctamente.')
@@ -159,12 +159,17 @@ def registrarPaginaWebArchivo(request):
 
 @login_required  
 def modificarPaginaWeb(request, webId):
+    user = request.user
+    cliente = Cliente.objects.get(usuario_id = user.id)
+    id_C= cliente.clienteId
+    dominios = Dominio.objects.filter(clienteId_id=id_C, estado='Sin usar')
+
     archivo= Archivo.objects.filter(sitioId_id=webId)
     sitio = SitioWeb.objects.get(webId = webId)
     
     dominio = Dominio.objects.filter(dominioId= sitio.dominio.dominioId).first()
-    print(dominio)
-    return render(request, "modificarPaginaWeb.html", {'sitio':SitioWeb.objects.get(webId = webId), 'archivos': archivo, 'titulo':dominio})
+    print(dominio.estado)
+    return render(request, "modificarPaginaWeb.html", {'sitio':SitioWeb.objects.get(webId = webId), 'archivos': archivo, 'titulo':dominio, 'dominios':dominios})
 
 @login_required  
 def modificarDominio(request, dominioId):
@@ -195,6 +200,34 @@ def subirArchivo(request):
             
             nuevo_archivo = Archivo(clienteId=cliente, sitioId=sitio, archivo=file)
             nuevo_archivo.save()
+
+
+
+        return JsonResponse({'success': True}) # Redirigir a la página de dashboard después de guardar
+    else:
+        return redirect('home')
+
+@csrf_exempt  
+def actualizarDominio(request):
+    if request.method == 'POST':
+        user = request.user
+        cliente = Cliente.objects.get(usuario=user)
+
+        dominioV = request.POST.get('dominioViejo') 
+        dominioN= request.POST.get('dominioNuevo') 
+        sitio = request.POST.get('sitio')
+        #-----------------------
+        print("----")
+        domV=Dominio.objects.get(dominioId = dominioV)
+        domV.estado = "Sin usar"
+        domV.save()
+        domN=Dominio.objects.get(dominioId = dominioN)
+        domN.estado ="En uso"
+        domN.save()
+
+        st= SitioWeb.objects.get(webId=sitio)
+        st.dominio = domN
+        st.save()
 
 
 
@@ -250,3 +283,21 @@ def agregarPlan(request):
 
 
 
+def crearTicket(request):
+    
+    if request.method == 'POST':
+            cliente = Cliente.objects.get(usuario=request.user)
+            titulo = request.POST['titulo']
+            descripcion = request.POST['descripcion']
+            ticket = Ticket(titulo=titulo, descripcion=descripcion, clienteId=cliente)  
+            ticket.estado = "sin resolver"
+            ticket.save()
+            print(ticket)
+            return redirect("dashboard")
+    else:
+        return render(request, "registrarTicket.html")
+    
+
+def vistaTicket(request, ticket_id):
+    ticket = Ticket.objects.get(ticketId=ticket_id)
+    return render(request, "consultarTicketCliente.html" ,{"Ticket":ticket})

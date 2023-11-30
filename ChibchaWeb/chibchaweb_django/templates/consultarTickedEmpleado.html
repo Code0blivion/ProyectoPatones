@@ -14,56 +14,28 @@
     <div class="container mt-5">
         <h2>Detalles del Ticket</h2>
          <!-- Agregar los dos select -->
-         <div class="form-group">
-            <label for="clienteSelect">Cliente:</label>
-            <select class="form-control" id="clienteSelect">
-                <option value="">Seleccionar cliente</option>
-                <!-- Aquí van las opciones para seleccionar el cliente -->
-                <!-- Puedes llenar esto dinámicamente desde tu backend -->
-                <option value="cliente1">Cliente 1</option>
-                <option value="cliente2">Cliente 2</option>
-                <option value="cliente3">Cliente 3</option>
-            </select>
-        </div>
+        
+    
 
-        <div class="form-group">
-            <label for="ticketClienteSelect">Tickets del cliente:</label>
-            <select class="form-control" id="ticketClienteSelect" disabled>
-                <option value="1234">Tiket 1234</option>
-                <!-- Aquí van las opciones de los tickets del cliente seleccionado -->
-            </select>
-        </div>
 
         <div class="card">
-            <div class="card-header">Número de Ticket: 12345</div>
+            <div class="card-header">Número de Ticket: {{ticket.pk}}</div>
             <div class="card-body">
-                <p><strong>Asunto:</strong> Problema con el servicio</p>
-                <p><strong>Descripción:</strong> No puedo acceder al servicio. ¿Puede ayudarme a solucionarlo?</p>
-                <p><strong>Estado:</strong> Completado/En proceso/No completado</p>
+                <p><strong>Asunto:</strong> {{ticket.titulo}}</p>
+                <p><strong>Descripción:</strong> {{ticket.descripcion}}</p>
+                <form method="post" action="{%url "consultarTicketsEmp" ticket.pk%}">
+                    {% csrf_token %}
+                    <p><strong>Estado:</strong> Completado/En proceso/No completado</p>
+                    <input id="ticket" name="ticket" placeholder="Estado">
+                    <button type="submit" class="btn btn-primary">Responder ticket</button>
+                </form>
+                
             </div>
+            
         </div>
 
         <!-- Sección de Chat -->
-        <div class="mt-4">
-            <h4>Chat del Ticket</h4>
-            <!-- Sección de Nuevo Mensaje -->
-            <div class="mt-3 form-inline">
-                <div class="form-group flex-grow-1">
-                    <label for="nuevoMensaje" class="mr-2">Nuevo Mensaje:</label>
-                    <input type="text" class="form-control flex-grow-1 mr-2" id="nuevoMensaje"
-                        placeholder="Escribe tu mensaje">
-                </div>
-                <button type="button" class="btn btn-primary d-inline-block mr-2">Enviar Mensaje</button>
-                <button id="marcarCompletadoBtn" class="btn btn-success d-inline-block">Marcar como completado</button>
-            </div>
-            <ul id="chat" class="list-group mt-3    ">
-                <!-- Aquí se mostrarán los mensajes del chat (mostrar los más recientes arriba) -->
-                <li class="list-group-item">Soporte: Resuelto. Por favor, verifique.</li>
-                <li class="list-group-item">Soporte: En proceso de resolución.</li>
-                <li class="list-group-item">Usuario: Agregada más información al ticket.</li>
-                <li class="list-group-item">Soporte: Ticket creado. En espera de revisión.</li>
-            </ul>
-        </div>
+        
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

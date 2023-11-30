@@ -13,6 +13,39 @@
   <h2>{{titulo}}</h2>
   <div class="container m-3">
     <div class="row flex-row-reverse">
+      <!-- Card de Dominio -->
+      <div class="col-md-12">
+        <div class="card mb-3">
+          <div class="card-header">Dominio</div>
+        <div class="card-body">
+          <p>¿Quieres cambiar el dominio de tu página?</p>
+          {% if dominios %} {% csrf_token %}
+                  <form id="formCrearSitioWeb">
+                    <select
+                      name="selectDominio"
+                      id="selectDominio"
+                      class="form-select"
+                    >
+                      {% for dominio in dominios %}
+                      <option value="{{ dominio.dominioId }}">
+                        {{dominio.nombreDominio}}{{dominio.extensionDominio.extensionDominio}}
+                      </option>
+                      {% endfor %}
+                    </select>
+                  </form>
+
+                  {% else %}
+                  <p>No hay dominios disponibles</p>
+                  <a href="{% url 'registrarDominio' %}" class="btn btn-secondary">Registrar Nuevo Dominio</a>
+                  {% endif %}
+
+          <div class="column text-center mt-2">
+            
+            <a  id="cambioDominio"class="btn btn-success ">Usar Dominio Seleccionado</a>
+          </div>
+        </div>
+      </div>
+      </div>
       <div class="col-md-12">
         <div class="card mb-3" style="border-radius: 10px;">
           <div class="card-header">Archivos</div>
@@ -84,6 +117,38 @@
           });
       });
   </script>
+
+<script>
+  var dataE = new FormData();
+  // JavaScript para manejar la interacción del usuario con los archivos y carpetas
+ 
+
+  document
+    .getElementById("cambioDominio")
+    .addEventListener("click", function () {
+      const selectedDomain =
+              document.getElementById("selectDominio").value;
+      dataE.append("sitio", "{{ sitio.webId }}");
+      dataE.append("dominioViejo", "{{ titulo.dominioId }}");
+      dataE.append("dominioNuevo",selectedDomain);
+      fetch('{% url "actuDominio" %}', {
+        method: "POST",
+        body: dataE,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            location.reload(); // Recargar la página actual si la carga fue exitosa
+          } else {
+            // Manejar otra lógica si la carga no fue exitosa
+          }
+        })
+        .catch((error) => {
+          // Manejar errores si la solicitud falla
+        });
+    });
+</script>
+
 </body>
 
 </html>

@@ -80,7 +80,8 @@
             <ul class="list-group">
               {% for dominio in dominios %}
               <li class="list-group-item">
-                <a href="{% url 'modificarDominio' dominio.dominioId %}">{{dominio.nombreDominio}}{{dominio.extensionDominio.extensionDominio}}</a>
+                <a
+                  href="{% url 'modificarDominio' dominio.dominioId %}">{{dominio.nombreDominio}}{{dominio.extensionDominio.extensionDominio}}</a>
               </li>
               {% endfor %}
             </ul>
@@ -100,21 +101,22 @@
         <div class="mt-4">
           <h3>Tickets</h3>
           <div style="max-height: 400px; min-height: 100px; overflow-y: auto;">
+            {% if tickets %}
             <ul class="list-group">
+              {% for t in tickets %}
               <li class="list-group-item">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley">ticket 1: error abrir
-                  documentos</a>
+                <a href="{% url  'consultaTicketCli' t.pk %}">
+                  {{ t.titulo }}
+                </a>
               </li>
-              <li class="list-group-item">
-                <a href="https://www.ejemplo2.com">Ticket 2: titulo</a>
-              </li>
-              <li class="list-group-item">
-                <a href="https://www.ejemplo3.com">ticket 3: titulo</a>
-              </li>
+              {% endfor %}
             </ul>
+            {% else %}
+            <h5>Aún no tienes tickets.</h5>
+            {% endif %}
           </div>
           <div class="mt-auto">
-            <a href="{% url 'registrarDominio' %}" class="btn btn-outline-primary d-block mx-auto mt-2">Crear nuevo
+            <a href="{% url 'crearTicket' %}" class="btn btn-outline-primary d-block mx-auto mt-2">Crear nuevo
               ticket</a>
           </div>
         </div>
@@ -128,7 +130,7 @@
       <ul class="list-group">
         {% for sitio in sitios_web %}
         <li class="list-group-item">
-          <a href="{% url 'modificarPagina' sitio.webId %}">{{ sitio.dominio.nombreDominio }}{{ sitio.dominio.extensionDominio.extensionDominio }}</a>
+          <a href="{% url 'modificarPagina' sitio.webId %}">{{ sitio.dominio.nombreDominio }}{{sitio.dominio.extensionDominio.extensionDominio }}</a>
         </li>
         {% endfor %}
       </ul>

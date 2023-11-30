@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from .models import Empleado
+from .models import Empleado 
+from Cliente.models import Ticket 
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -33,3 +34,14 @@ def editar_empleado(request, id_empleado):
     else:
         return redirect('home')
     return render(request, "editarEmpleado.html", {'empleado':Empleado.objects.get(usuario_id = id_empleado)})
+
+def consultarTicketsEmp(request, ticket_id):
+    ticket = Ticket.objects.get(ticketId=ticket_id)
+    if request.method == "POST":
+        estado = request.POST["ticket"]
+        ticket.estado = estado
+        ticket.save()
+        return redirect("dashboard")
+    else:
+        return render(request, "consultarTickedEmpleado.html", {"ticket":ticket})
+    

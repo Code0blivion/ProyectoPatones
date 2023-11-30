@@ -13,12 +13,8 @@
             <strong>Comisión a ChibchaWeb: </strong>{{distribuidor.comision}}%
           </p>
           <div class="mt-auto text-center">
-            <a
-              class="btn btn-primary"
-              href="{% url 'editarDistribuidor' distribuidor.usuario_id %}"
-            >
-              Modificar Información</a
-            >
+            <a class="btn btn-primary" href="{% url 'editarDistribuidor' distribuidor.usuario_id %}">
+              Modificar Información</a>
             <a class="btn btn-danger" href="{% url 'eliminarUsuario' %}">
               Eliminar cuenta
             </a>
@@ -31,20 +27,14 @@
         <div class="card-header">Exportar a PDF</div>
         <div class="card-body">
           <p>Archivo bancario exportado como PDF.</p>
-          <a href="{% url 'reporteBancario' %}" class="btn btn-primary"
-            >Descargar PDF</a
-          >
+          <a href="{% url 'reporteBancario' %}" class="btn btn-primary">Descargar PDF</a>
         </div>
       </div>
       <div class="card mt-2">
         <div class="card-header">Reporte de Contratos</div>
         <div class="card-body">
           <p>Se genera un reporte con los contratos de los clientes.</p>
-          <a
-            href="{% url 'reporteContrato' dist=distribuidor.distribuidorId %}"
-            class="btn btn-primary"
-            >Ver Reporte</a
-          >
+          <a href="{% url 'reporteContrato' dist=distribuidor.distribuidorId %}" class="btn btn-primary">Ver Reporte</a>
         </div>
       </div>
     </div>
@@ -59,9 +49,7 @@
             {% for extension in extensiones %}
 
             <li class="list-group-item text-center">
-              <a href="{% url 'modExtension' extension.extensionId %}"
-                >{{ extension.extensionDominio }}</a
-              >
+              <a href="{% url 'modExtension' extension.extensionId %}">{{ extension.extensionDominio }}</a>
             </li>
 
             {% endfor %}
@@ -69,16 +57,12 @@
           {% else %}
           <h5>Aún no tienes dominios.</h5>
           {% endif %}
-          <div class="mt-2 text-center">
-            <a
-              type="submit"
-              class="btn btn-outline-primary mx-auto"
-              data-toggle="modal"
-              data-target="#registrarDominioModal"
-            >
-              Registrar Extensión de Dominio
-            </a>
-          </div>
+        </div>
+        <div class="mt-2 text-center">
+          <a type="submit" class="btn btn-outline-primary mx-auto" data-toggle="modal"
+            data-target="#registrarDominioModal">
+            Registrar Extensión de Dominio
+          </a>
         </div>
       </div>
     </div>
@@ -103,39 +87,22 @@
               {% csrf_token %}
               <div class="form-group">
                 <label for="nombreExtension">Extensión:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="nombreExtension"
-                  name="nombreExtension"
-                  placeholder="Ej. .com"
-                  required
-                />
+                <input type="text" class="form-control" id="nombreExtension" name="nombreExtension"
+                  placeholder="Ej. .com" required />
               </div>
               <div class="form-group">
                 <label for="precio">Precio:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="precio"
-                  name="precio"
-                  placeholder="Ej. $10.99"
-                  required
-                />
+                <input type="text" class="form-control" id="precio" name="precio" placeholder="Ej. $10.99" required />
               </div>
 
-              <!-- Botón para enviar el formulario -->
-              <button type="submit" class="btn btn-primary">Registrar</button>
             </form>
+            <!-- Botón para enviar el formulario -->
+            <button type="submit" class="btn btn-primary">Registrar</button>
           </div>
 
           <!-- Pie del Modal -->
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
               Cerrar
             </button>
           </div>
@@ -151,7 +118,8 @@
           <ul class="list-group">
             {% for dominio in dominios %}
             <li class="list-group-item text-center">
-              <a href="{% url 'solicitudXML' dominio.pk %}">{{dominio.nombreDominio}}{{dominio.extensionDominio.extensionDominio}}</a>
+              <a
+                href="{% url 'solicitudXML' dominio.pk %}">{{dominio.nombreDominio}}{{dominio.extensionDominio.extensionDominio}}</a>
             </li>
             {% endfor %}
           </ul>

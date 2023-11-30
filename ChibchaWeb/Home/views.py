@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from Cliente.models import Cliente, Plan, TarjetaCredito, SitioWeb, Dominio
+from Cliente.models import Cliente, Plan, TarjetaCredito, SitioWeb, Dominio, Ticket
 from Cliente.validar_tarjeta import validar_tarjeta
 from Empleado.models import Empleado
 from Distribuidor.models import Distribuidor, ExtensionDominio
@@ -59,8 +59,9 @@ def dashboard_view(request):
             tarjeta =  TarjetaCredito.objects.get(clienteId = cliente)
             sitios_web = SitioWeb.objects.filter(clienteId=cliente)
             dominios = Dominio.objects.filter(clienteId=cliente)
+            tickets = Ticket.objects.filter(clienteId=cliente)
             tarjeta.save()
-            return render(request, "cliente.html", {'cliente':cliente, 'tarjeta':tarjeta, 'sitios_web':sitios_web, 'dominios':dominios})
+            return render(request, "cliente.html", {'cliente':cliente, 'tarjeta':tarjeta, 'sitios_web':sitios_web, 'dominios':dominios, "tickets":tickets})
         elif rol == "Distribuidor":
             #Lo que pasa cuando un distribuidor inicia sesión
             distribuidor = Distribuidor.objects.get(usuario = user)
@@ -70,7 +71,8 @@ def dashboard_view(request):
         elif rol == "Empleado":
             #Lo que pasa cuando un empleado inicia sesión
             empleado = Empleado.objects.get(usuario = user)
-            return render(request, "empleado.html", {'empleado':empleado})
+            tickets = Ticket.objects.filter(estado="sin resolver")
+            return render(request, "empleado.html", {'empleado':empleado, "tickets":tickets})
     except:        
         if user.is_superuser:
             return HttpResponseRedirect("/admin")
