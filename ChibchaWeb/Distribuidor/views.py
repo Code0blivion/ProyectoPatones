@@ -121,6 +121,9 @@ def modificarPrecioExtension(request):
 
 
 def solicitudXML(request, dominioId):
-    dominio = Dominio.objects.get(dominioId = dominioId)
-    req = getRequest(dominio)
-    return render(request, 'Solicitudes.html',{'dominio':dominio, 'texto':generateRequest(req)})
+    try:
+        dominio = Dominio.objects.get(dominioId = dominioId)
+        req = getRequest(dominio)
+        return render(request, 'Solicitudes.html',{'dominio':dominio, 'texto':generateRequest(req)})
+    except e:
+	print(e)
