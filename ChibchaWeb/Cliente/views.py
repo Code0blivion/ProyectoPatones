@@ -68,7 +68,7 @@ def cambiar_tarjeta(request):
         tarjeta.fechaVencimientoMes = request.POST['mes']
         tarjeta.fechaVencimientoAnio = request.POST['anio']
         tarjeta.direccion = request.POST['direccion']
-        if validar_tarjeta(tarjeta.numeroTarjeta) == True and tarjeta.numeroTarjeta.count('0') != len(tarjeta.numeroTarjeta):
+        if validar_tarjeta(tarjeta.numeroTarjeta) == True:
             tarjeta.save()
             print("Tarjeta guardada")
             messages.success(request, 'La tarjeta de crédito se ha guardado correctamente.')

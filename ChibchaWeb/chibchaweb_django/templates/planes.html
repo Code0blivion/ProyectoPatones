@@ -191,7 +191,11 @@
 {% csrf_token %}
 <script>
   function enviarPlan(id) {
-    if("{{ tarjeta }}"){
+    var flag = false;
+    if ("{{ tarjeta }}" == "True"){
+	flag = true;
+    }
+    if(flag){
     $('#confirmacionModal').modal('show');
 
     $('#btnRegistrarModal').on('click', function() {

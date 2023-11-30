@@ -15,4 +15,4 @@ def validar_tarjeta(numero): #algoritmo de luh para validar numeros de tarjetas 
         total += digito
 
     # El número de tarjeta es válido si es divisible por 10
-    return total % 10 == 0 #devuelve un booleano
+    return total % 10 == 0 and not str(numero).count('0') == 16 #devuelve un booleano
