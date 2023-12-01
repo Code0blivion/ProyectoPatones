@@ -116,12 +116,12 @@ def modificarPrecioExtension(request):
         return JsonResponse({'success': True})
     else:
         # Manejar otros métodos HTTP según sea necesario
-        # ...
-        return redirect("dashboard")
+        pass
 
-
+@csrf_exempt
 def solicitudXML(request, dominioId):
     dominio = Dominio.objects.get(dominioId = dominioId)
     #req = getRequest(dominio)
-    req = "hola"
-    return render(request, 'Solicitudes.html',{'dominio':dominio, 'texto':generateRequest(req)})
+    #texto = generateRequest(req)
+    texto = "hola"
+    return render(request, "Solicitudes.html", {'dominio':dominio, 'texto':texto})
