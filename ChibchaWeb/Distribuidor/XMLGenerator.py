@@ -23,7 +23,7 @@ def generateRequest(request:dict):
 
     ET.indent(requestXML, space="  ")
     
-    return ET.tostring(requestXML, encoding='unicode')
+    return ET.tostring(requestXML)
 
 def getRequest(domain):
     request = {}
