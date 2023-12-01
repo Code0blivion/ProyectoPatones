@@ -26,7 +26,7 @@ def generateRequest(request:dict):
     
     tree = ET.ElementTree(requestXML)
 
-    print(tree)
+    print(ET.tostring(requestXML, encoding='utf-8').decode('utf-8'))
     
     #tree.write("request"+request['id']+".xml", encoding='utf-8', xml_declaration=True)
 
