@@ -117,10 +117,11 @@ def modificarPrecioExtension(request):
     else:
         # Manejar otros métodos HTTP según sea necesario
         # ...
-        None
+        return redirect("dashboard")
 
 
 def solicitudXML(request, dominioId):
     dominio = Dominio.objects.get(dominioId = dominioId)
-    req = getRequest(dominio)
+    #req = getRequest(dominio)
+    req = "hola"
     return render(request, 'Solicitudes.html',{'dominio':dominio, 'texto':generateRequest(req)})
