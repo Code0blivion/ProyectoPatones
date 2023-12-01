@@ -1,12 +1,10 @@
 from .models import Distribuidor, ExtensionDominio
 from Cliente.models import Cliente, TarjetaCredito, Dominio
-import locale
 
 class ReportDataGenerator:
     
     @classmethod
     def getDictData(cls, distribuidor):
-        locale.setlocale(locale.LC_ALL, 'es_co')
         dominiosDistribuidor = []
         extensionesDistribuidor = ExtensionDominio.objects.filter(distribuidorId = distribuidor)
         data = []
@@ -27,15 +25,15 @@ class ReportDataGenerator:
                             'extension':dominio.extensionDominio.extensionDominio,
                             'nombreCli':dominio.clienteId.nombreCliente,
                             'fechaReg':dominio.fechaSolicitud,
-                            'valorCon':locale.currency(dominio.extensionDominio.precioExtension, grouping=True),
-                            'comision':locale.currency((distribuidor.comision/100)*dominio.extensionDominio.precioExtension, grouping=True),
+                            'valorCon':dominio.extensionDominio.precioExtension,
+                            'comision':(distribuidor.comision/100)*dominio.extensionDominio.precioExtension,
                             'tarjeta':tarjeta.numeroTarjeta}) 
                 
                 total += dominio.extensionDominio.precioExtension
                 total_comision += (distribuidor.comision/100)*dominio.extensionDominio.precioExtension
                 
-            data.append(locale.currency(total, grouping=True))
-            data.append(locale.currency(total_comision, grouping=True))
-            data.append(locale.currency(total-total_comision, grouping=True))
+            data.append(total)
+            data.append(total_comision)
+            data.append(total-total_comision)
         
         return data
