@@ -1,5 +1,4 @@
 import xml.etree.ElementTree as ET
-from Cliente.models import Dominio
 import datetime
 
 def generateRequest(request:dict):
@@ -24,7 +23,7 @@ def generateRequest(request:dict):
 
     ET.indent(requestXML, space="  ")
     
-    return ET.tostring(requestXML, encoding='utf-8').decode('utf-8')
+    return ET.tostring(requestXML, encoding='unicode')
 
 def getRequest(domain):
     request = {}

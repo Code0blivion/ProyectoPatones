@@ -63,7 +63,7 @@
 
           if (data.success) {
             alert("Cambios guardados correctamente");
-            url = "{% url 'modExtension' 0 %}";
+            url = "{% url 'modExtension' '0' %}";
             url.replace('0',"{{ext.pk}}")
             window.location.href = url; // Recargar la página actual si la carga fue exitosa
           } else {
