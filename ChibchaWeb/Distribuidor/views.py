@@ -31,7 +31,7 @@ def editar_distribuidor(request, id_distribuidor):
         return redirect('home')
     return render(request, "editarDistribuidor.html", {'distribuidor':Distribuidor.objects.get(usuario_id = id_distribuidor)})
 
-@csrf_exempt
+
 def descargarReporte(request):
     generador = BancaryReportFacade()
     distribuidor = Distribuidor.objects.get(usuario=request.user)  
@@ -117,10 +117,7 @@ def modificarPrecioExtension(request):
         # Manejar otros métodos HTTP según sea necesario
         pass
 
-@csrf_exempt
+
 def solicitudXML(request, dominioId):
     dominio = Dominio.objects.get(dominioId = dominioId)
-    req = getRequest(dominio)
-    texto = generateRequest(req)
-    print(texto)
-    return render(request, "Solicitudes.html", {'dominio':dominio, 'texto':texto})
+    return render(request, "Solicitudes.html", {'dominio':dominio, 'texto':generateRequest(getRequest(dominio))})
