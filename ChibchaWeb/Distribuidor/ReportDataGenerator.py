@@ -25,15 +25,15 @@ class ReportDataGenerator:
                             'extension':dominio.extensionDominio.extensionDominio,
                             'nombreCli':dominio.clienteId.nombreCliente,
                             'fechaReg':dominio.fechaSolicitud,
-                            'valorCon':dominio.extensionDominio.precioExtension,
-                            'comision':(distribuidor.comision/100)*dominio.extensionDominio.precioExtension,
+                            'valorCon':str(dominio.extensionDominio.precioExtension),
+                            'comision':str((distribuidor.comision/100)*dominio.extensionDominio.precioExtension),
                             'tarjeta':tarjeta.numeroTarjeta}) 
                 
                 total += dominio.extensionDominio.precioExtension
                 total_comision += (distribuidor.comision/100)*dominio.extensionDominio.precioExtension
                 
-            data.append(total)
-            data.append(total_comision)
-            data.append(total-total_comision)
+            data.append(str(total))
+            data.append(str(total_comision))
+            data.append(str(total-total_comision))
         
         return data
