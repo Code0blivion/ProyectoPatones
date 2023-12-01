@@ -120,7 +120,7 @@ def modificarPrecioExtension(request):
 @csrf_exempt
 def solicitudXML(request, dominioId):
     dominio = Dominio.objects.get(dominioId = dominioId)
-    #req = getRequest(dominio)
-    #texto = generateRequest(req)
-    texto = "texto"
+    req = getRequest(dominio)
+    texto = generateRequest(req)
+    print(texto)
     return render(request, "Solicitudes.html", {'dominio':dominio, 'texto':texto})
