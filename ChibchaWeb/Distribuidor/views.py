@@ -31,7 +31,7 @@ def editar_distribuidor(request, id_distribuidor):
         return redirect('home')
     return render(request, "editarDistribuidor.html", {'distribuidor':Distribuidor.objects.get(usuario_id = id_distribuidor)})
 
-
+@csrf_exempt
 def descargarReporte(request):
     generador = BancaryReportFacade()
     distribuidor = Distribuidor.objects.get(usuario=request.user)  
@@ -108,7 +108,6 @@ def modificarPrecioExtension(request):
         nuevo_precio = data.get('precio')
         extension_id = data.get('id')
         
-        
         exte = ExtensionDominio.objects.get(extensionId = int(extension_id))
         exte.precioExtension = float(nuevo_precio)
         exte.save()
@@ -121,7 +120,6 @@ def modificarPrecioExtension(request):
 @csrf_exempt
 def solicitudXML(request, dominioId):
     dominio = Dominio.objects.get(dominioId = dominioId)
-    #req = getRequest(dominio)
-    #texto = generateRequest(req)
-    texto = "hola"
+    req = getRequest(dominio)
+    texto = generateRequest(req)
     return render(request, "Solicitudes.html", {'dominio':dominio, 'texto':texto})
