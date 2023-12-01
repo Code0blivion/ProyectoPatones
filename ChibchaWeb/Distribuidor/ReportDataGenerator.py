@@ -6,7 +6,10 @@ class ReportDataGenerator:
     
     @classmethod
     def getDictData(cls, distribuidor):
-        locale.setlocale(locale.LC_ALL, locale.getdefaultlocale())
+        locales = locale.locale_alias.keys()
+        for loc in locales:
+            print(loc)
+        #locale.setlocale(locale.LC_ALL, locale.getdefaultlocale())
         dominiosDistribuidor = []
         extensionesDistribuidor = ExtensionDominio.objects.filter(distribuidorId = distribuidor)
         data = []
