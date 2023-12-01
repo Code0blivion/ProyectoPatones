@@ -38,7 +38,7 @@ class BancaryReportFacade:
             canvas.setFont('Helvetica', 12)
             canvas.drawString(cls.__ancho_pagina - 80, cls.__alto_pagina - 20, date.today().strftime("%d/%m/%Y"))
             canvas.drawString(cls.__ancho_pagina - 80, cls.__alto_pagina - 40, datetime.now().strftime("%H:%M:%S"))
-            canvas.drawInlineImage("chibchaweb_django\static\images\logo.jpg", 390-cls.__ancho_pagina, cls.__alto_pagina - 60, preserveAspectRatio=True, height=50)
+            canvas.drawInlineImage("\chibchaweb_django\static\images\logo.jpg", 390-cls.__ancho_pagina, cls.__alto_pagina - 60, preserveAspectRatio=True, height=50)
             canvas.drawString(90, cls.__alto_pagina - 40, 'CibchaWeb')
             canvas.drawCentredString(cls.__ancho_pagina / 2, cls.__alto_pagina - 85, "Reporte Bancario " + nombreDistribuidor)
             canvas.restoreState()
