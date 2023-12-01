@@ -4,38 +4,33 @@ import datetime
 
 def generateRequest(request:dict):
 
-    try:
+    requestXML = ET.Element("request")
 
-        requestXML = ET.Element("request")
+    head = ET.SubElement(requestXML,"head")
+    ET.SubElement(head,"date").text = request['date']
+    ET.SubElement(head, "time").text = request['time']
+    ET.SubElement(head,"request_id").text = request['id']
+    ET.SubElement(head, "distributor", id = request['distributor']['id']).text = request['distributor']['distributor']
+    ET.SubElement(head,"language").text = request['language']
+    ET.SubElement(head, "description").text = request['description']
+    
+    
+    body = ET.SubElement(requestXML,"body")
+    ET.SubElement(body,"domain", id = request['domain']['id']).text = request['domain']['domain']
+    ET.SubElement(body,"extension", id = request['extension']['id']).text = request['extension']['extension']
+    ET.SubElement(body,"client", id = request['client']['id']).text = request['client']['client']
+    ET.SubElement(body,"price").text = request['price']
+    ET.SubElement(body,"months").text = request['months']
 
-        head = ET.SubElement(requestXML,"head")
-        ET.SubElement(head,"date").text = request['date']
-        ET.SubElement(head, "time").text = request['time']
-        ET.SubElement(head,"request_id").text = request['id']
-        ET.SubElement(head, "distributor", id = request['distributor']['id']).text = request['distributor']['distributor']
-        ET.SubElement(head,"language").text = request['language']
-        ET.SubElement(head, "description").text = request['description']
-        
-        
-        body = ET.SubElement(requestXML,"body")
-        ET.SubElement(body,"domain", id = request['domain']['id']).text = request['domain']['domain']
-        ET.SubElement(body,"extension", id = request['extension']['id']).text = request['extension']['extension']
-        ET.SubElement(body,"client", id = request['client']['id']).text = request['client']['client']
-        ET.SubElement(body,"price").text = request['price']
-        ET.SubElement(body,"months").text = request['months']
+    ET.indent(requestXML, space="  ")
+    
+    tree = ET.ElementTree(requestXML)
 
-        ET.indent(requestXML, space="  ")
-        
-        tree = ET.ElementTree(requestXML)
+    print(tree)
+    
+    #tree.write("request"+request['id']+".xml", encoding='utf-8', xml_declaration=True)
 
-        print(tree)
-        
-        #tree.write("request"+request['id']+".xml", encoding='utf-8', xml_declaration=True)
-
-        return ET.tostring(requestXML, encoding='utf-8').decode('utf-8')
-
-    except e:
-        print(e)
+    return ET.tostring(requestXML, encoding='utf-8').decode('utf-8')
 
 def getRequest(domain):
     request = {}
