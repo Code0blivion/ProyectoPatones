@@ -62,7 +62,9 @@
 
 
           if (data.success) {
-            alert("Cambios guardados correctamente"); // Recargar la página actual si la carga fue exitosa
+            alert("Cambios guardados correctamente");
+            url = '{% url "modExtension" "{{ext.pk}}" %}';
+            window.location.href = url; // Recargar la página actual si la carga fue exitosa
           } else {
             // Manejar otra lógica si la carga no fue exitosa
           }
