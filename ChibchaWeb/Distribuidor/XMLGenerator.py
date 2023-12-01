@@ -1,6 +1,21 @@
 import xml.etree.ElementTree as ET
 import datetime
 
+def indentar(elem, level=0):
+    i = "\n" + level*"  "
+    if len(elem):
+        if not elem.text or not elem.text.strip():
+            elem.text = i + "  "
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+        for elem in elem:
+            indentar(elem, level+1)
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+    else:
+        if level and (not elem.tail or not elem.tail.strip()):
+            elem.tail = i
+
 def generateRequest(request:dict):
 
     requestXML = ET.Element("request")
@@ -21,9 +36,9 @@ def generateRequest(request:dict):
     ET.SubElement(body,"price").text = request['price']
     ET.SubElement(body,"months").text = request['months']
 
-    ET.indent(requestXML, space="  ")
+    indentar(requestXML)
     
-    return ET.tostring(requestXML)
+    return ET.tostring(requestXML, encoding='utf-8').decode('utf-8')
 
 def getRequest(domain):
     request = {}
